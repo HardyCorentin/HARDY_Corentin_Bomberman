@@ -15,7 +15,11 @@ public class GridManager : MonoBehaviour
     public TileScript TileInQuestion;
     
     [SerializeField] private GameObject _destructableWallPrefab;
-    
+
+    [SerializeField] private GameObject _indestructableWallPrefab;
+
+    [SerializeField] private GameObject _powerUpPrefab;
+
     [SerializeField] private GameObject _camera;
     
     private bool _isPlayerSpawned = false;
@@ -39,9 +43,9 @@ public class GridManager : MonoBehaviour
                 
                 _willTileBeOccupied = (Random.Range(-10.0f, 10.0f));
                 //End of spawning a tile
-
+                //__________________________________________________________________________________________________________
                 //Check if the tile will be occupied by a Destructible wall or not.
-                if (_willTileBeOccupied < 0f && _willTileBeOccupied >= -10f)
+                if (_willTileBeOccupied < 0f && _willTileBeOccupied >= -7f)
                 {
                     //Spawn the wall
                     var SpawnAWall  = Instantiate(_destructableWallPrefab,new Vector3(x, y,-1), Quaternion.identity);
@@ -52,12 +56,48 @@ public class GridManager : MonoBehaviour
                     
                     if (TileInQuestion == true)
                     {
+                        TileInQuestion.isOccupied = true; //Make the tile "occupied" so that no other thing can spawn on it. (will be usefull for the player spawn later.)
+                    }
+
+                }
+                //End of check
+                //_____________________________________________________________________________________________________________
+                //Check if the tile will be occupied by an indestrucable wall
+                else if (_willTileBeOccupied > 0f && _willTileBeOccupied <= 2f)
+                {
+                    //Spawn the wall
+                    var SpawnASolidWall = Instantiate(_indestructableWallPrefab, new Vector3(x, y, -1), Quaternion.identity);
+
+                    SpawnASolidWall.name = $"IndestructibleWall + {x} + {y}";
+
+                    TileInQuestion = SpawnTile.GetComponent<TileScript>();
+
+                    if (TileInQuestion == true)
+                    {
                         TileInQuestion.isOccupied = true; //Make the tile "occupied" so that no other thing can spawn or walk on it.
                     }
 
                 }
                 //End of check
+                //___________________________________________________________________________________________________________________
+                //Check if the tile will be occupied by an indestrucable wall
+                else if (_willTileBeOccupied > 9f && _willTileBeOccupied <= 10f)
+                {
+                    //Spawn the wall
+                    var SpawnAPowerUp = Instantiate(_powerUpPrefab, new Vector3(x, y, -1), Quaternion.identity);
 
+                    SpawnAPowerUp.name = $"PowerUp + {x} + {y}";
+
+                    TileInQuestion = SpawnTile.GetComponent<TileScript>();
+
+                    if (TileInQuestion == true)
+                    {
+                        TileInQuestion.isOccupied = true; //Make the tile "occupied" so that no other thing can spawn or walk on it.
+                    }
+
+                }
+                //End of check
+                //___________________________________________________________________________________________________________________
                 //Ask Louis about ho to check an entire layer
             }
         }

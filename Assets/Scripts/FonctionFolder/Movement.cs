@@ -8,24 +8,52 @@ public class Movement : MonoBehaviour
     public bool moveDone = false;
     public int movementSpeed = 1;
 
+    [SerializeField] private LayerMask _cantMoveTowards;
+
     public void MoveLeft()
     {
-        _actorToMove.transform.position = new Vector3(_actorToMove.transform.position.x - 1, _actorToMove.transform.position.y + 0, _actorToMove.transform.position.z + 0);
-        moveDone = true;
-}
+        var nextPosition = new Vector3(_actorToMove.transform.position.x - 1, _actorToMove.transform.position.y + 0, _actorToMove.transform.position.z + 0);
+        if (!(Physics.OverlapSphere(nextPosition, 0.2f, _cantMoveTowards).Length > 0))
+        {
+            _actorToMove.transform.position = nextPosition;
+        }
+        
+    }
+
+
     public void MoveRight()
     {
-        _actorToMove.transform.position = new Vector3(_actorToMove.transform.position.x + 1, _actorToMove.transform.position.y + 0, _actorToMove.transform.position.z + 0);
-        moveDone = true;
+        var nextPosition = new Vector3(_actorToMove.transform.position.x + 1, _actorToMove.transform.position.y + 0, _actorToMove.transform.position.z + 0);
+
+        if (!(Physics.OverlapSphere(nextPosition, 0.2f, _cantMoveTowards).Length > 0))
+        {
+            _actorToMove.transform.position = nextPosition;
+        }
+        
+      
     }
+
+
+
     public void MoveUp()
     {
-        _actorToMove.transform.position = new Vector3(_actorToMove.transform.position.x + 0, _actorToMove.transform.position.y + 1, _actorToMove.transform.position.z + 0);
-        moveDone = true;
+        var nextPosition = new Vector3(_actorToMove.transform.position.x + 0, _actorToMove.transform.position.y + 1, _actorToMove.transform.position.z + 0);
+        if (!(Physics.OverlapSphere(nextPosition, 0.2f, _cantMoveTowards).Length > 0))
+        {
+            _actorToMove.transform.position = nextPosition;
+        }
+     
     }
+
+
+
     public void MoveDown()
     {
-        _actorToMove.transform.position = new Vector3(_actorToMove.transform.position.x+0, _actorToMove.transform.position.y-1, _actorToMove.transform.position.z + 0);
-        moveDone = true;
+        var nextPosition = new Vector3(_actorToMove.transform.position.x + 0, _actorToMove.transform.position.y -1 , _actorToMove.transform.position.z + 0);
+        if (!(Physics.OverlapSphere(nextPosition, 0.2f, _cantMoveTowards).Length > 0))
+        {
+            _actorToMove.transform.position = nextPosition;
+        }
     }
+    
 }
