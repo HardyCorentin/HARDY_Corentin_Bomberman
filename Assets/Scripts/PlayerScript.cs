@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
-    [SerializeField] private bool _isAlive = true;
+    public bool isAlive = true;
     
     [SerializeField] private Movement _movement;
 
     [SerializeField] private PutTheBombDown _bombDrop;
 
-    
+    public float bombCD = 0f;
 
     public GameObject bombPrefab;
     // Start is called before the first frame update
@@ -23,12 +23,13 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.LogWarning(bombCD);
         //Movement inputs
         if (Input.GetKeyDown(KeyCode.D))
         {
             _movement.MoveRight();
             
-            Debug.Log("Right.");
+            
         }
         
         
@@ -36,7 +37,7 @@ public class PlayerScript : MonoBehaviour
         {
             _movement.MoveUp();
             
-            Debug.Log("Up.");
+            
         }
         
         
@@ -44,7 +45,7 @@ public class PlayerScript : MonoBehaviour
         {
             _movement.MoveDown();
             
-            Debug.Log("Down.");
+            
             
             
         }
@@ -54,20 +55,35 @@ public class PlayerScript : MonoBehaviour
         {
             _movement.MoveLeft();
        
-            Debug.Log("Left.");
+            
         }
         //End of movement input
         //Drop bomb
-        
-        
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        if (bombCD <= 0)
         {
-            _bombDrop.DropBomb();
-            Debug.Log("I'M DROPPING A BOOOOOOOOOOOOOOOOOOOOOMB !");
+            if (bombCD < 0)
+            {
+                bombCD = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("I'M DROPPING A BOMB");
+                _bombDrop.DropBomb();
+                bombCD = 3f;
+
+            }
         }
+
+        else if (bombCD>0)
+        {
+            bombCD = bombCD - Time.deltaTime;
+        }
+
+        //End of Drop bomb
         
         
-        if (!_isAlive)///Death and launch of the death scene
+        if (!isAlive)///Death and launch of the death scene
         {
             Destroy(gameObject);
             //SceneManager.LoadScene("DefeatScene");

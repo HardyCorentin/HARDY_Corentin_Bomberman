@@ -101,10 +101,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386a309edc16f9641a73e99ca9ac981d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isAlive: 1
+  isAlive: 1
   _movement: {fileID: 4357912576008787070}
   _bombDrop: {fileID: 4357912576008787060}
-  bombPrefab: {fileID: 0}
+  bombCD: 0
+  bombPrefab: {fileID: 637838821801350761, guid: 53ae8d991b1c2584db4a697c55b976dd, type: 3}
 --- !u!114 &4357912576008787070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +121,9 @@ MonoBehaviour:
   _actorToMove: {fileID: 4357912576008787071}
   moveDone: 0
   movementSpeed: 1
+  _cantMoveTowards:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!65 &4357912576008787061
 BoxCollider:
   m_ObjectHideFlags: 0

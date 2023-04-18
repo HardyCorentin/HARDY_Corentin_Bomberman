@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class WallScript : MonoBehaviour
 {
-    [SerializeField] private bool _isDestructible;
+    public bool isDestructible;
 }

@@ -13,7 +13,7 @@ public class Movement : MonoBehaviour
     public void MoveLeft()
     {
         var nextPosition = new Vector3(_actorToMove.transform.position.x - 1, _actorToMove.transform.position.y + 0, _actorToMove.transform.position.z + 0);
-        if (!(Physics.OverlapSphere(nextPosition, 0.2f, _cantMoveTowards).Length > 0))
+        if (!(Physics.OverlapSphere(nextPosition, 0.1f, _cantMoveTowards).Length > 0))
         {
             _actorToMove.transform.position = nextPosition;
         }
@@ -25,7 +25,7 @@ public class Movement : MonoBehaviour
     {
         var nextPosition = new Vector3(_actorToMove.transform.position.x + 1, _actorToMove.transform.position.y + 0, _actorToMove.transform.position.z + 0);
 
-        if (!(Physics.OverlapSphere(nextPosition, 0.2f, _cantMoveTowards).Length > 0))
+        if (!(Physics.OverlapSphere(nextPosition, 0.1f, _cantMoveTowards).Length > 0))
         {
             _actorToMove.transform.position = nextPosition;
         }
@@ -38,7 +38,7 @@ public class Movement : MonoBehaviour
     public void MoveUp()
     {
         var nextPosition = new Vector3(_actorToMove.transform.position.x + 0, _actorToMove.transform.position.y + 1, _actorToMove.transform.position.z + 0);
-        if (!(Physics.OverlapSphere(nextPosition, 0.2f, _cantMoveTowards).Length > 0))
+        if (!(Physics.OverlapSphere(nextPosition, 0.1f, _cantMoveTowards).Length > 0))
         {
             _actorToMove.transform.position = nextPosition;
         }
@@ -50,7 +50,7 @@ public class Movement : MonoBehaviour
     public void MoveDown()
     {
         var nextPosition = new Vector3(_actorToMove.transform.position.x + 0, _actorToMove.transform.position.y -1 , _actorToMove.transform.position.z + 0);
-        if (!(Physics.OverlapSphere(nextPosition, 0.2f, _cantMoveTowards).Length > 0))
+        if (!(Physics.OverlapSphere(nextPosition, 0.1f, _cantMoveTowards).Length > 0))
         {
             _actorToMove.transform.position = nextPosition;
         }

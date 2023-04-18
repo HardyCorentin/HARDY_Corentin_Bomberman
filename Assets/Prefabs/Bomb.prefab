@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 637838821801350760}
   - component: {fileID: 637838821801350762}
   - component: {fileID: 422020610468236429}
+  - component: {fileID: -151293233175804486}
+  - component: {fileID: 5904695945236502880}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -27,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637838821801350761}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -112,3 +114,40 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-151293233175804486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637838821801350761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7be8798e5f84b949bcd20a315e311c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 3
+  _playerPrefab: {fileID: 4357912576008787071, guid: 7c50c562da8c15346ba1dae23faab35e, type: 3}
+  explosionRadius: 3
+  _explosionPrefab: {fileID: 680373417344184064, guid: 2ed5f4eadfbc29c44b40a9077f34e74d, type: 3}
+  stopUpExplosion: 0
+  stopDownExplosion: 0
+  stopLeftExplosion: 0
+  stopRightExplosion: 0
+  _explosion: {fileID: 5763873471093024620, guid: 2ed5f4eadfbc29c44b40a9077f34e74d, type: 3}
+--- !u!54 &5904695945236502880
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637838821801350761}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

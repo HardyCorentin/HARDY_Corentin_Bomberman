@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] private GameObject Tileprefab;
+    [SerializeField] private TileScript Tileprefab;
     
     public int height;
     
@@ -29,9 +29,14 @@ public class GridManager : MonoBehaviour
         GenerateGrid();
     }
 
+
+    public TileScript[,] tileScripts;
+
     // Update is called once per frame
    public void GenerateGrid()
     {
+
+        tileScripts = new TileScript[width, height];
       for(int x=0; x <width; x++)
         {
             for (int y = 0; y < width; y++)
@@ -40,7 +45,8 @@ public class GridManager : MonoBehaviour
                 var SpawnTile = Instantiate(Tileprefab,new Vector3(x, y), Quaternion.identity);
                 
                 SpawnTile.name = $"Tile + {x} + {y}";
-                
+
+                tileScripts[x, y] = SpawnTile;
                 _willTileBeOccupied = (Random.Range(-10.0f, 10.0f));
                 //End of spawning a tile
                 //__________________________________________________________________________________________________________
@@ -96,11 +102,113 @@ public class GridManager : MonoBehaviour
                     }
 
                 }
+
+                //GetTileAtLocation(x,y);
+                //IsTileOpen(TileInQuestion);
+                
                 //End of check
                 //___________________________________________________________________________________________________________________
-                //Ask Louis about ho to check an entire layer
+                //Create map border to block the player from going out of bounds.
+                for (int xborder = 0; xborder < width; xborder++)
+                {
+                    var SpawnXTopBorderTile = Instantiate(Tileprefab, new Vector3(xborder, height), Quaternion.identity);
+
+                    var SpawnXTopBorderWall = Instantiate(_indestructableWallPrefab, new Vector3(xborder, height,-1), Quaternion.identity);
+
+                    TileInQuestion = SpawnXTopBorderTile.GetComponent<TileScript>();
+
+                    if (TileInQuestion == true)
+                    {
+                        TileInQuestion.isOccupied = true;
+                    }
+
+                    SpawnXTopBorderTile.name = $"BorderTile + {xborder} + {height}";
+
+                    SpawnXTopBorderWall.name = $"BorderWall + {xborder} + {height}";
+
+                    var SpawnXBotBorderTile = Instantiate(Tileprefab, new Vector3(xborder, -1), Quaternion.identity);
+
+                    var SpawnXBotBorderWall = Instantiate(_indestructableWallPrefab, new Vector3(xborder, -1, -1), Quaternion.identity);
+
+                    TileInQuestion = SpawnXBotBorderTile.GetComponent<TileScript>();
+
+                    if (TileInQuestion == true)
+                    {
+                        TileInQuestion.isOccupied = true;
+                    }
+
+                    SpawnXBotBorderTile.name = $"BorderTile + {xborder} + {-1}";
+
+                    SpawnXBotBorderWall.name = $"BorderWall + {xborder} + {-1}";
+                }
+
+
+
+
+
+                for (int yborder = 0; yborder < height; yborder++)
+                {
+                    var SpawnYTopBorderTile = Instantiate(Tileprefab, new Vector3(-1, yborder), Quaternion.identity);
+
+                    var SpawnYTopBorderWall = Instantiate(_indestructableWallPrefab, new Vector3(-1, yborder, -1), Quaternion.identity);
+
+                    TileInQuestion = SpawnYTopBorderTile.GetComponent<TileScript>();
+
+                    if (TileInQuestion == true)
+                    {
+                        TileInQuestion.isOccupied = true;
+                    }
+
+                    SpawnYTopBorderTile.name = $"BorderTile + {width} + {yborder}";
+
+                    SpawnYTopBorderWall.name = $"BorderWall + {width} + {yborder}";
+
+                    var SpawnYBotBorderTile = Instantiate(Tileprefab, new Vector3(width,yborder, -1), Quaternion.identity);
+
+                    var SpawnYBotBorderWall = Instantiate(_indestructableWallPrefab, new Vector3(width, yborder, -1), Quaternion.identity);
+
+                    TileInQuestion = SpawnYBotBorderTile.GetComponent<TileScript>();
+
+                    if (TileInQuestion == true)
+                    {
+                        TileInQuestion.isOccupied = true;
+                    }
+
+                    SpawnYBotBorderTile.name = $"BorderTile + {-1} + {yborder}";
+
+                    SpawnYBotBorderWall.name = $"BorderWall + {-1} + {yborder}";
+                }
+
+                //__________________________________________________________________________________________________________________
+
+                //Ask Louis to explain how his things work, because it's nearing eldritch level of incomprehension
             }
         }
         _camera.transform.position = new Vector3(width / 2, height / 2, -10f);//Put the camera at the center of the map, to make sure that the player sees the most of it, under the condition that it is not too large of course.
+    }
+
+
+
+    public TileScript GetTileAtLocation(int x, int y)
+    {
+        return tileScripts[x, y];
+    }
+
+    
+    //Check if a tile has free spaces around it so the player can move and not die 
+    public bool IsTileOpen(TileScript tile)
+    {
+        return
+            !tile.isOccupied
+            &&
+            (
+            !GetTileAtLocation(tile.coordinates.x + 1, tile.coordinates.y).isOccupied
+            ||
+             !GetTileAtLocation(tile.coordinates.x - 1, tile.coordinates.y).isOccupied
+            &&
+             !GetTileAtLocation(tile.coordinates.x, tile.coordinates.y + 1).isOccupied
+            ||
+             !GetTileAtLocation(tile.coordinates.x, tile.coordinates.y - 1).isOccupied
+            );
     }
 }
