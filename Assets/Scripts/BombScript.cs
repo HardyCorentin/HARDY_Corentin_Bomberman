@@ -4,25 +4,35 @@ using UnityEngine;
 
 public class BombScript : MonoBehaviour
 {
-    public float timer = 3f;
+    public float timer;
     [SerializeField] private GameObject _playerPrefab ;
     public int explosionRadius = 3;
     [SerializeField] private GameObject _explosionPrefab;
-    public bool stopUpExplosion = false;
-    public bool stopDownExplosion = false;
-    public bool stopLeftExplosion = false;
-    public bool stopRightExplosion = false;
+    public bool stopUpExplosion;
+    public bool stopDownExplosion;
+    public bool stopLeftExplosion;
+    public bool stopRightExplosion;
     public ExplosionScript explosion;
+    public bool activateDestructionOfBomb;
+    
 
     public void Start()
     {
-        
+        activateDestructionOfBomb = false;
+        stopUpExplosion = false;
+        stopRightExplosion = false;
+        stopLeftExplosion = false;
+        stopDownExplosion = false;
+        timer = 3f;
+
     }
 
     public void Update()
     {
+        Debug.LogWarning(timer);
         timer = timer - Time.deltaTime;
-        if (timer <= 0f )
+        
+        if (timer <= 1f && timer >= 0 && activateDestructionOfBomb == false)
         {
             //Each for loop is a side of the explosion.
             // Right explosion
@@ -30,12 +40,14 @@ public class BombScript : MonoBehaviour
             {
                 if (stopRightExplosion == false)
                 {
-                    var Explosion = Instantiate(_explosionPrefab, new Vector3(gameObject.transform.position.x + x - 1, gameObject.transform.position.y, -1), Quaternion.identity);
-                    
+                    var RightExplosion = Instantiate(_explosionPrefab, new Vector3(gameObject.transform.position.x + x - 1, gameObject.transform.position.y, -1), Quaternion.identity);
+                    RightExplosion.GetComponent<ExplosionScript>().explosionID = 0;
+
                 }
-                else
+                //Stops this side of the explosion
+                else if (stopRightExplosion == true)
                 {
-                    break;
+                    Debug.Log("SRIGHT");
                 }
             }
             //Left explosion
@@ -43,28 +55,30 @@ public class BombScript : MonoBehaviour
             {
                 if (stopLeftExplosion == false)
                 {
-                    var BackExplosion = Instantiate(_explosionPrefab, new Vector3(gameObject.transform.position.x - x + 1, gameObject.transform.position.y, -1), Quaternion.identity);
-                    explosion.explosionID = 1;
+                    var LeftExplosion = Instantiate(_explosionPrefab, new Vector3(gameObject.transform.position.x - x + 1, gameObject.transform.position.y, -1), Quaternion.identity);
+                    LeftExplosion.GetComponent<ExplosionScript>().explosionID = 1;
 
                 }
-                else
+                //Stops this side of the explosion
+                else if (stopLeftExplosion == true)
                 {
-                    break;
+                    Debug.Log("SLEFT");
                 }
                 
 
             }
-            //Up explosion
+            //Top explosion
             for (int y = 0; y < explosionRadius; y++)
             {
                 if (stopUpExplosion == false)
                 {
-                    var Explosion = Instantiate(_explosionPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + y, -1), Quaternion.identity);
-                    explosion.explosionID = 2;
+                    var TopExplosion = Instantiate(_explosionPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + y, -1), Quaternion.identity);
+                    TopExplosion.GetComponent<ExplosionScript>().explosionID = 2;
                 }
-                else
+                //Stops this side of the explosion
+                else if (stopUpExplosion == true)
                 {
-                    break;
+                    Debug.Log("STOP");
                 }
 
                 
@@ -76,18 +90,24 @@ public class BombScript : MonoBehaviour
             {
                 if (stopDownExplosion == false)
                 {
-                    var BackExplosion = Instantiate(_explosionPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - y, -1), Quaternion.identity);
-                    explosion.explosionID = 3;
+                    var DownExplosion = Instantiate(_explosionPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - y, -1), Quaternion.identity);
+                    DownExplosion.GetComponent<ExplosionScript>().explosionID = 3;
                 }
-                else
+                //Stops this side of the explosion
+                else if(stopDownExplosion == true)
                 {
-                    break;
+                    Debug.Log("SDOWN");
                 }
                 
 
             }
 
 
+            
+        }
+        else if (timer<=0 || activateDestructionOfBomb == true)
+        {
+            Debug.Log("BOMB DESTROYED");
             Destroy(gameObject);
         }
 

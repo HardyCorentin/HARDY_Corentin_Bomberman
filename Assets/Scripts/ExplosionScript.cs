@@ -19,7 +19,7 @@ public class ExplosionScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _timer = _timer - Time.deltaTime;
+        _timer = _timer -0.1f;
         if (_timer > 0)
         {
             var collisions = Physics.OverlapBox(gameObject.transform.position, Vector3.zero,Quaternion.identity, _wall);
@@ -37,7 +37,7 @@ public class ExplosionScript : MonoBehaviour
                 {
                     Debug.LogWarning("Wall is not destructible");
 
-                    /*//So. What it SHOULD do is state which part of the explosion must be stoped but it seems it explodes the code instead.
+                    //So. What it SHOULD do is state which part of the explosion must be stoped but it seems it explodes the code instead.
                     if (explosionID == 3) 
                     {
                         _bomb.stopDownExplosion = true;
@@ -56,7 +56,7 @@ public class ExplosionScript : MonoBehaviour
                     if (explosionID == 2) 
                     {
                         _bomb.stopUpExplosion = true;
-                    }*/
+                    }
                     Destroy(gameObject);
                 }
                 
@@ -86,6 +86,7 @@ public class ExplosionScript : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            
         }
     }
 

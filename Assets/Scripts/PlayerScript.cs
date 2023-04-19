@@ -23,7 +23,7 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.LogWarning(bombCD);
+        //Debug.LogWarning(bombCD);
         //Movement inputs
         if (Input.GetKeyDown(KeyCode.D))
         {
